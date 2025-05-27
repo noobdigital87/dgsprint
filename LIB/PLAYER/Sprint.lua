@@ -42,8 +42,6 @@ local function Sprint(player, sprinting)
 					speed = SPEED_BOOST, jump = JUMP_BOOST})
 
 			pova.do_override(player)
-
-			iplayer[name].is_sprinting = true
 		elseif monoids then
 			stamina.players[name].sprint = player_monoids.speed:add_change(
 					player, def.speed + SPEED_BOOST)
