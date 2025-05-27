@@ -82,3 +82,11 @@ local function Sprint(player, sprinting)
 		end
 	end
 end
+
+core.register_globalstep(function(dtime)
+	local players = core.get_connected_players()
+	for _, player in ipairs(players) do
+		Sprint(player, true)
+	end
+	
+end)
