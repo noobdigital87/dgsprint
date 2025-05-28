@@ -86,7 +86,12 @@ end
 core.register_globalstep(function(dtime)
 	local players = core.get_connected_players()
 	for _, player in ipairs(players) do
-		Sprint(player, true)
+		local ctrl = player:get_player_control()
+		if ctrl.aux1 then
+			Sprint(player, true)
+		else
+			Sprint(player, false)
+		end
 	end
 	
 end)
