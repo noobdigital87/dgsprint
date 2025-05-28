@@ -43,10 +43,10 @@ local function Sprint(player, sprinting)
 
 			pova.do_override(player)
 		elseif monoids then
-			stamina.players[name].sprint = player_monoids.speed:add_change(
+			iplayer[name].sprint = player_monoids.speed:add_change(
 					player, def.speed + SPEED_BOOST)
 
-			stamina.players[name].jump = player_monoids.jump:add_change(
+			iplayer[name].jump = player_monoids.jump:add_change(
 					player, def.jump + JUMP_BOOST)
 
 		elseif mod_playerphysics then
@@ -68,8 +68,8 @@ local function Sprint(player, sprinting)
 			pova.del_override(name, "dg_sprint:sprint")
 			pova.do_override(player)
 		elseif monoids then
-			player_monoids.speed:del_change(player, "dg_sprint:sprint")
-			player_monoids.jump:del_change(player, "dg_sprint:jump")
+			player_monoids.speed:del_change(player, iplayer[name].sprint)
+			player_monoids.jump:del_change(player, iplayer[name].jump)
 		elseif mod_playerphysics then
 			playerphysics.remove_physics_factor(player, "dg_sprint:sprint")
 			playerphysics.remove_physics_factor(player, "dg_sprint:jump")
