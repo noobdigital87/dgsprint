@@ -36,9 +36,9 @@ local function Sprint(player, sprinting)
 	local def = player:get_physics_override() -- get player physics
 
 	if sprinting == true and not iplayer[name].is_sprinting then
-		
+
 		if pova_mod then
-			pova.add_override(name, "sprint", { speed = SPEED_BOOST, jump = JUMP_BOOST })
+			pova.add_override(name, "dg_sprint:sprint", { speed = SPEED_BOOST, jump = JUMP_BOOST })
 			pova.do_override(player)
 		elseif monoids then
 			iplayer[name].sprint = player_monoids.speed:add_change(
@@ -62,7 +62,7 @@ local function Sprint(player, sprinting)
 		end
 		iplayer[name].is_sprinting = true
 	elseif sprinting == false and iplayer[name].is_sprinting then
-		
+
 		if pova_mod then
 			pova.del_override(name, "dg_sprint:sprint")
 			pova.do_override(player)
@@ -81,6 +81,17 @@ local function Sprint(player, sprinting)
 		end
 		iplayer[name].is_sprinting = false
 	end
+end
+
+local IsPlayerHangGliding = function(player)
+	local children = player:get_children()
+	for _, child in ipairs(children) do
+		local properties = child:get_properties()
+		if properties.mesh == "hangglider.obj" then
+			return true
+		end
+	end
+	return false
 end
 
 local IsNoPhysicsModInstalled = function()
