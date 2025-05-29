@@ -101,11 +101,13 @@ local IsNoPhysicsModInstalled = function()
 	return true
 end
 
+local no_physics = IsNoPhysicsModInstalled()
+
 core.register_globalstep(function(dtime)
 	local players = core.get_connected_players()
 	for _, player in ipairs(players) do
 		local ctrl = player:get_player_control()
-		if ctrl.aux1 and (dg_sprint_core.IsPlayerHangGliding(player) and IsNoPhysicsModInstalled()) then
+		if ctrl.aux1 and (dg_sprint_core.IsPlayerHangGliding(player) and no_physics) then
 			Sprint(player, false)
 		elseif ctrl.aux1 then
 			Sprint(player, true)
