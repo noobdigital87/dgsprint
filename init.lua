@@ -38,10 +38,14 @@ local function Sprint(player, sprinting)
 	if sprinting == true and not iplayer[name].is_sprinting then
 		iplayer[name].is_sprinting = true
 		if pova_mod then
-			pova.add_override(name, "sprint", {
-					speed = SPEED_BOOST, jump = JUMP_BOOST})
+			if dg_sprint_core.IsPlayerHangGliding(player) then
+				pova.add_override(name, "sprint", { speed = def.speed + SPEED_BOOST, jump = def.jump + JUMP_BOOST })
+				pova.do_override(player)
+			else
+				pova.add_override(name, "sprint", { speed = SPEED_BOOST, jump = JUMP_BOOST })
+				pova.do_override(player)
+			end
 
-			pova.do_override(player)
 		elseif monoids then
 			iplayer[name].sprint = player_monoids.speed:add_change(
 					player, def.speed + SPEED_BOOST)
