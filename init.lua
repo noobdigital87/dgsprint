@@ -28,6 +28,17 @@ local monoids = core.get_modpath("player_monoids")
 local pova_mod = core.get_modpath("pova")
 local mod_playerphysics = core.get_modpath("playerphysics")
 
+local IsPlayerHangGliding = function(player)
+	local children = player:get_children()
+	for _, child in ipairs(children) do
+		local properties = child:get_properties()
+		if properties.mesh == "hangglider.obj" then
+			return true
+		end
+	end
+	return false
+end
+
 local function Sprint(player, sprinting)
 
 	if not player then return end
@@ -38,7 +49,11 @@ local function Sprint(player, sprinting)
 	if sprinting == true and not iplayer[name].is_sprinting then
 
 		if pova_mod then
-			pova.add_override(name, "dg_sprint:sprint", { speed = SPEED_BOOST, jump = JUMP_BOOST })
+			if IsPlayerHangGliding(player) then 
+				pova.add_override(name, "dg_sprint:sprint", { speed = (def.speed - 1) + SPEED_BOOST, jump =  (def.jump - 1) + JUMP_BOOST })
+			else
+				pova.add_override(name, "dg_sprint:sprint", { speed = SPEED_BOOST, jump = JUMP_BOOST })
+			end
 			pova.do_override(player)
 		elseif monoids then
 			iplayer[name].sprint = player_monoids.speed:add_change(
@@ -83,16 +98,7 @@ local function Sprint(player, sprinting)
 	end
 end
 
-local IsPlayerHangGliding = function(player)
-	local children = player:get_children()
-	for _, child in ipairs(children) do
-		local properties = child:get_properties()
-		if properties.mesh == "hangglider.obj" then
-			return true
-		end
-	end
-	return false
-end
+
 
 local IsNoPhysicsModInstalled = function()
 	if monoids or pova_mod or mod_playerphysics then
