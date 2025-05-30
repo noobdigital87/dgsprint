@@ -45,7 +45,9 @@ local function Sprint(player, sprinting)
 
 	local name = player:get_player_name()
 	local def = player:get_physics_override() -- get player physics
-
+	if sprinting == true and iplayer[name].is_sprinting and pova_mod then
+		pova.add_override(name, "dg_sprint:sprint", { speed = SPEED_BOOST, jump = JUMP_BOOST })
+	end
 	if sprinting == true and not iplayer[name].is_sprinting then
 
 		if pova_mod then
